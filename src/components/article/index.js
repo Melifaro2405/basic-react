@@ -62,7 +62,6 @@ class Article extends PureComponent {
         <CommentList comments={article.comments} />
       </section>
     )
-
   }
 }
 

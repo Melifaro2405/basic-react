@@ -19,20 +19,26 @@ class CommentList extends Component {
   }
 
   get body() {
-    const {comments, isOpen} = this.props
+    const {comments = [], isOpen} = this.props
     if (!isOpen) return null
 
-    const body = comments.length
-      ? (<ul>
-          {comments.map((comment) => (
-            <li key={comment.id}>
-              <Comment comment={comment} />
-            </li>
-          ))}
-        </ul>)
-      : (<h3>No comments yet</h3>)
+    return (
+      <div>
+        {comments.length ? (this.comments) : (<h3>No comments yet</h3>)}
+      </div>
+    )
+  }
 
-    return <div>{body}</div>
+  get comments() {
+    return (
+      <ul>
+        {this.props.comments.map((id) => (
+          <li key={id}>
+            <Comment id={id}/>
+          </li>
+        ))}
+      </ul>
+    )
   }
 }
 
