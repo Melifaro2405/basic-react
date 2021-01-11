@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import CommentList from './comment-list'
+import CommentList from '../comment-list'
+import './styles.css'
+import { deleteArticle } from '../../ac'
 
 class Article extends PureComponent {
 
@@ -23,18 +26,29 @@ class Article extends PureComponent {
 
     return (
       <div>
-        <div>
-          <h3>{article.title}</h3>
-          <button onClick={this.handleClick}>
+        <h3>
+          {article.title}
+          <button onClick={this.handleClick} className="test__article--btn">
             {isOpen ? 'close' : 'open'}
           </button>
-        </div>
-        {this.body}
+          <button onClick={this.handleDelete}>
+            delete me
+          </button>
+        </h3>
+          {this.body}
       </div>
     )
   }
 
-  handleClick = () => this.props.toggleOpen(this.props.article.id)
+  handleClick = () => {
+    const {article, toggleOpen} = this.props
+    toggleOpen(article.id)
+  }
+
+  handleDelete = () => {
+    const {article, deleteArticle} = this.props
+    deleteArticle(article.id)
+  } 
 
   get body() {
     const {article, isOpen} = this.props
@@ -43,7 +57,7 @@ class Article extends PureComponent {
       if (this.state.hasError) return <div>Some Error in this article</div>
 
     return (
-      <section>
+      <section className="test__article--body">
         {article.text}
         <CommentList comments={article.comments} />
       </section>
@@ -52,4 +66,6 @@ class Article extends PureComponent {
   }
 }
 
-export default Article
+const mapDispatchToProps = {deleteArticle}
+
+export default connect(null, mapDispatchToProps)(Article)

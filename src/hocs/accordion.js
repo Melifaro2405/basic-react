@@ -1,22 +1,24 @@
-import React, { Component } from 'react'
+//decorator === HOC === Higher Order Component
+import React from 'react'
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default (OriginalComponent) =>
-  class DecoratedComponent extends Component {
+  class DecoratedComponent extends React.Component {
+    state = {
+      openItemId: null
+    }
 
-  state = {
-    openItemId: null
+    toggleOpenItem = (openItemId) =>
+      this.setState({
+        openItemId: openItemId === this.state.openItemId ? null : openItemId
+      })
+
+    render() {
+      return (
+        <OriginalComponent
+          {...this.props}
+          {...this.state}
+          toggleOpenItem={this.toggleOpenItem}
+        />
+      )
+    }
   }
-
-  toggleOpenItem = (openItemId) => this.setState({
-    openItemId: openItemId === this.state.openItemId ? null : openItemId
-  })
-
-  render() {
-    return <OriginalComponent
-      {...this.props}
-      {...this.state}
-      toggleOpenItem={this.toggleOpenItem}
-      />
-  }
-}
