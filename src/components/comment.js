@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import { commentSelector } from '../selectors'
 
 const Comment = ({comment}) => {
   return (
@@ -15,7 +16,7 @@ Comment.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  comment: state.comments.find((comment) => comment.id === ownProps.id)
+  comment: commentSelector(state, ownProps)
 })
 
 export default connect(mapStateToProps)(Comment)
